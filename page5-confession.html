@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pengakuan — Aku Mencintaimu</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Lora:wght@400;500&family=Dancing+Script:wght@500;600;700&display=swap" rel="stylesheet" />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --rose: #c4687a;
+        --rose-light: #e8a0b4;
+        --rose-dark: #8c3048;
+        --gold: #d4a85a;
+        --cream: #f5e6ea;
+        --bg-dark: #0e0608;
+      }
+
+      body {
+        font-family: 'Lora', serif;
+        background: var(--bg-dark);
+        color: var(--cream);
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      /* BACKGROUND */
+      #bgCanvas {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      .glow-pulse {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 800px;
+        height: 800px;
+        border-radius: 50%;
+        background: radial-gradient(ellipse at center, #c4687a12 0%, transparent 65%);
+        pointer-events: none;
+        z-index: 1;
+        animation: glowPulse 4s ease-in-out infinite;
+      }
+
+      @keyframes glowPulse {
+        0%,
+        100% {
+          opacity: 0.6;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        50% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1.2);
+        }
+      }
+
+      /* MAIN */
+      .page {
+        position: relative;
+        z-index: 2;
+        padding: 80px 24px;
+        max-width: 760px;
+        margin: auto;
+        text-align: center;
+      }
+
+      .opening-label {
+        font-family: 'Dancing Script', cursive;
+        font-size: 18px;
+        color: var(--gold);
+        letter-spacing: 3px;
+      }
+
+      .opening-title {
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(42px, 8vw, 72px);
+        margin-top: 12px;
+        margin-bottom: 16px;
+
+        background: linear-gradient(160deg, #fff 20%, var(--rose-light) 60%, var(--rose) 100%);
+
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .opening-sub {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        color: var(--rose-light);
+        font-size: 26px;
+      }
+
+      /* HEART */
+      .heart-hero {
+        font-size: 90px;
+        display: block;
+        margin: 40px auto;
+        animation: heartBeat 1.5s infinite;
+        filter: drop-shadow(0 0 30px #c4687a88);
+      }
+
+      @keyframes heartBeat {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.15);
+        }
+      }
+
+      /* LETTER */
+      .letter {
+        background: linear-gradient(160deg, rgba(45, 14, 28, 0.88), rgba(26, 10, 16, 0.92));
+
+        border: 1px solid #c4687a33;
+        border-radius: 40px;
+        padding: 56px 42px;
+        margin-top: 30px;
+        text-align: left;
+
+        box-shadow:
+          0 40px 100px #00000066,
+          inset 0 1px 0 #c4687a22;
+      }
+
+      .letter-date {
+        font-family: 'Dancing Script', cursive;
+        color: var(--gold);
+        font-size: 16px;
+      }
+
+      .letter-greeting {
+        display: block;
+        margin: 22px 0;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 24px;
+      }
+
+      .letter-body {
+        line-height: 2;
+        color: #ead5dc;
+        font-style: italic;
+      }
+
+      .letter-body p {
+        margin-bottom: 20px;
+      }
+
+      .letter-highlight {
+        color: var(--rose-light);
+        font-weight: bold;
+      }
+
+      .letter-sig {
+        margin-top: 40px;
+        text-align: right;
+      }
+
+      .letter-sig-name {
+        font-family: 'Dancing Script', cursive;
+        font-size: 28px;
+        color: var(--rose-light);
+      }
+
+      /* QUESTION */
+      .question-wrap {
+        margin-top: 60px;
+      }
+
+      .question-text {
+        font-family: 'Playfair Display', serif;
+        font-size: 34px;
+        font-style: italic;
+        margin-bottom: 10px;
+      }
+
+      .question-sub {
+        font-family: 'Dancing Script', cursive;
+        color: var(--rose-light);
+        font-size: 20px;
+      }
+
+      /* BUTTONS */
+      .response-buttons {
+        margin-top: 40px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .btn-yes {
+        background: linear-gradient(135deg, var(--rose), var(--rose-dark));
+
+        color: white;
+        border: none;
+        border-radius: 60px;
+        padding: 18px 50px;
+        cursor: pointer;
+
+        font-family: 'Dancing Script', cursive;
+        font-size: 24px;
+
+        box-shadow: 0 10px 40px #c4687a66;
+        transition: 0.3s;
+      }
+
+      .btn-yes:hover {
+        transform: translateY(-4px) scale(1.05);
+      }
+
+      .btn-no {
+        position: relative;
+
+        background: none;
+        border: 2px solid #ff8ba0;
+        color: #ffb3c1;
+
+        border-radius: 60px;
+        padding: 18px 40px;
+
+        cursor: pointer;
+
+        font-family: 'Dancing Script', cursive;
+        font-size: 22px;
+
+        transition: 0.25s;
+      }
+
+      .btn-no:hover {
+        background: #ffffff10;
+      }
+
+      /* RESPONSE */
+      .response-state {
+        display: none;
+        margin-top: 40px;
+        padding: 40px;
+        border-radius: 30px;
+      }
+
+      .response-state.visible {
+        display: block;
+      }
+
+      .state-yes {
+        background: linear-gradient(160deg, rgba(45, 14, 28, 0.8), rgba(26, 10, 16, 0.9));
+
+        border: 1px solid #c4687a55;
+      }
+
+      .state-yes-title {
+        font-size: 42px;
+        margin: 20px 0;
+        font-family: 'Playfair Display', serif;
+      }
+
+      .state-yes-sub {
+        font-family: 'Dancing Script', cursive;
+        color: var(--rose-light);
+        font-size: 22px;
+      }
+
+      /* CONFETTI */
+      #confettiLayer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 100;
+        overflow: hidden;
+      }
+
+      .conf {
+        position: absolute;
+        animation: confFall linear forwards;
+      }
+
+      @keyframes confFall {
+        0% {
+          transform: translateY(-60px) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(110vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+
+      /* MOBILE */
+      @media (max-width: 480px) {
+        .letter {
+          padding: 40px 24px;
+        }
+
+        .response-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="bgCanvas"></canvas>
+    <div class="glow-pulse"></div>
+    <div id="confettiLayer"></div>
+
+    <main class="page">
+      <span class="opening-label"> ✦ Halaman Terakhir ✦ </span>
+
+      <h1 class="opening-title">Aku Mencintaimu</h1>
+
+      <p class="opening-sub">dan ini bukan sekadar kata-kata</p>
+
+      <span class="heart-hero">♥</span>
+
+      <!-- LETTER -->
+      <div class="letter">
+        <span class="letter-date" id="letterDate"></span>
+
+        <span class="letter-greeting"> Kepada dirimu yang istimewa, </span>
+
+        <div class="letter-body">
+          <p>Sudah lama aku menyimpan ini — perasaan yang tumbuh perlahan, yang awalnya kukira hanya rasa kagum biasa.</p>
+
+          <p>
+            Namun semakin hari, semakin jelas bahwa
+            <span class="letter-highlight"> ini jauh lebih dari sekadar kagum. </span>
+          </p>
+
+          <p>Maka dengan segala keberanian yang kupunya...</p>
+
+          <p>
+            <span class="letter-highlight"> Aku ingin kamu tahu bahwa aku mencintaimu. </span>
+          </p>
+        </div>
+
+        <div class="letter-sig">
+          <span class="letter-sig-name"> ♥ Dari seseorang yang tulus mencintaimu </span>
+        </div>
+      </div>
+
+      <!-- QUESTION -->
+      <div class="question-wrap">
+        <p class="question-text">"Maukah kamu menjadi milikku?"</p>
+
+        <span class="question-sub"> Hatiku menunggu jawabanmu ✦ </span>
+
+        <div class="response-buttons" id="responseBtns">
+          <!-- BUTTON YES -->
+          <button class="btn-yes" onclick="handleYes()">💕 Ya, aku mau!</button>
+
+          <!-- BUTTON NO -->
+          <button class="btn-no" id="btnNo">💔 Tidak mau</button>
+        </div>
+
+        <!-- RESPONSE YES -->
+        <div class="response-state state-yes" id="stateYes">
+          <div style="font-size: 70px">♥</div>
+
+          <h2 class="state-yes-title">Ini jawaban terindah</h2>
+
+          <p class="state-yes-sub">Terima kasih sudah menerima hatiku ✦</p>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      /* =========================
+   LINK WA ANDA
+========================= */
+
+      // GANTI DENGAN LINK WA.LINK ANDA
+      const waYesLink = 'https://wa.link/onrjbl';
+
+      /* =========================
+   DATE
+========================= */
+
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+      const d = new Date();
+
+      document.getElementById('letterDate').textContent = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+
+      /* =========================
+   STAR BACKGROUND
+========================= */
+
+      const canvas = document.getElementById('bgCanvas');
+      const ctx = canvas.getContext('2d');
+
+      let W,
+        H,
+        stars = [];
+
+      function resize() {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+
+      resize();
+
+      window.addEventListener('resize', resize);
+
+      for (let i = 0; i < 200; i++) {
+        stars.push({
+          x: Math.random(),
+          y: Math.random(),
+
+          r: Math.random() * 1.4 + 0.3,
+
+          speed: Math.random() * 0.006 + 0.002,
+
+          phase: Math.random() * Math.PI * 2,
+        });
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        const t = Date.now() / 1000;
+
+        stars.forEach((s) => {
+          const a = 0.1 + 0.7 * (0.5 + 0.5 * Math.sin(t * s.speed * 10 + s.phase));
+
+          ctx.beginPath();
+
+          ctx.arc(s.x * W, s.y * H, s.r, 0, Math.PI * 2);
+
+          ctx.fillStyle = `rgba(255,220,230,${a})`;
+
+          ctx.fill();
+        });
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+
+      /* =========================
+   CONFETTI
+========================= */
+
+      function launchConfetti() {
+        const layer = document.getElementById('confettiLayer');
+
+        const items = ['🌸', '🌹', '💕', '✨', '♥', '🎀', '💖', '⭐'];
+
+        for (let i = 0; i < 60; i++) {
+          setTimeout(() => {
+            const el = document.createElement('div');
+
+            el.className = 'conf';
+
+            el.textContent = items[Math.floor(Math.random() * items.length)];
+
+            el.style.cssText = `
+        left:${Math.random() * 100}%;
+        top:-60px;
+        font-size:${16 + Math.random() * 20}px;
+        animation-duration:${2.5 + Math.random() * 2}s;
+      `;
+
+            layer.appendChild(el);
+
+            setTimeout(() => {
+              el.remove();
+            }, 5000);
+          }, i * 40);
+        }
+      }
+
+      /* =========================
+   BUTTON YES
+========================= */
+
+      function handleYes() {
+        document.getElementById('responseBtns').style.display = 'none';
+
+        document.getElementById('stateYes').classList.add('visible');
+
+        launchConfetti();
+
+        // buka wa
+        window.open(waYesLink, '_blank');
+      }
+
+      /* =========================
+   BUTTON NO KABUR
+========================= */
+
+      const btnNo = document.getElementById('btnNo');
+
+      function moveButton() {
+        const maxX = window.innerWidth - btnNo.offsetWidth - 20;
+
+        const maxY = window.innerHeight - btnNo.offsetHeight - 20;
+
+        const randomX = Math.random() * maxX;
+
+        const randomY = Math.random() * maxY;
+
+        btnNo.style.position = 'fixed';
+
+        btnNo.style.left = `${randomX}px`;
+
+        btnNo.style.top = `${randomY}px`;
+      }
+
+      // desktop
+      btnNo.addEventListener('mouseenter', moveButton);
+
+      // mobile
+      btnNo.addEventListener('touchstart', moveButton);
+
+      // jika dipaksa klik
+      btnNo.addEventListener('click', moveButton);
+    </script>
+  </body>
+</html>
